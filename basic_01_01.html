@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>Vuejs</title>
+</head>
+
+<body>
+
+<div id="emit-example-simple">
+    {{msg}}
+    <welcome-button @welcome="sayHi" :msg="msg"></welcome-button>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.8/vue.min.js"></script>
+    <script>
+
+        Vue.component('welcome-button', {
+            props: ['msg'],
+            template: `
+                <input :value="msg" v-on:input="$emit('welcome', $event.target.value)" />
+              `
+        })
+
+        new Vue({
+            el: '#emit-example-simple',
+            data: {
+                msg: 'TEST'
+            },
+            methods: {
+                sayHi: function (param) {
+                    // alert(param);
+                    this.msg=param;
+                }
+            }
+        })
+
+
+    </script>
+</body>
+</html>

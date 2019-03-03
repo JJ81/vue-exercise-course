@@ -1,0 +1,69 @@
+<html>
+<head>
+    <title>Vuejs</title>
+</head>
+
+<body>
+<!-- class 여러곳에 사용이 가능합니다. -->
+<!-- id 딱 한 곳에만 사용이 가능합니다. -->
+<div id="vue-app">
+    <input-holder
+            @message="changeMsg"
+            v-bind:msg="msg"
+            v-bind:msg_active="msg_active"
+            v-bind:button_handler="button_handler"></input-holder>
+    <msg-holder
+            v-bind:msg="msg"
+            v-bind:msg_active="msg_active"></msg-holder>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.8/vue.min.js"></script>
+<script>
+
+    Vue.component('msg-holder', {
+        props: ['msg', 'msg_active'],
+        template: '<div v-if="msg_active">{{msg}}</div>'
+    });
+
+    Vue.component('input-holder', {
+        props: ['msg', 'msg_active', 'button_handler'],
+        template:
+            `
+            <div>
+                <input type="text" :value="msg" @input="$emit('message', $event.target.value)">
+                <button @click="button_handler">
+                    <span v-if="msg_active">Hide</span>
+                    <span v-else>Show</span>
+                </button>
+            </div>
+            `,
+        methods:{
+
+        }
+    });
+
+    // ROOT
+    var vueApp = new Vue({
+        'el' : '#vue-app',
+        'data' : {
+            'msg': 'vue.js',
+            'msg_active': true
+        },
+        methods:{
+            button_handler: function () {
+                this.msg_active=!this.msg_active;
+            },
+
+            changeMsg: function (msg){
+                this.msg=msg;
+            }
+
+
+        }
+    });
+
+
+</script>
+</body>
+</html>
